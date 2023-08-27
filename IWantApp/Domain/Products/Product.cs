@@ -7,4 +7,5 @@ public class Product : Entity
     public Category Category { get; set; } = null!;
     public string Description { get; set; } = null!;
     public bool HasStock { get; set; }
+    public bool Active { get; set; } = true;
 }

@@ -16,17 +16,18 @@ public class EmployeePost
 
         if (!result.Succeeded)
             return Results.BadRequest(result.Errors.First());
+
+        var userClaims = new List<Claim>
+        {
+            new Claim("EmployeeCode", employeeRequest.EmployeeCode),
+            new Claim("Name", employeeRequest.Name)
+        };
         
-        var claimResult = userManager.AddClaimAsync(user, new Claim("EmployeeCode", employeeRequest.EmployeeCode)).Result;
+        var claimResult = userManager.AddClaimsAsync(user, userClaims).Result;
 
         if (!claimResult.Succeeded)
             return Results.BadRequest(result.Errors.First());
 
-        claimResult = userManager.AddClaimAsync(user, new Claim("Name", employeeRequest.Name)).Result;
-
-        if (!claimResult.Succeeded)
-            return Results.BadRequest(result.Errors.First());
-        
         return Results.Created($"/employee/{user.Id}", user.Id);
     }
 }

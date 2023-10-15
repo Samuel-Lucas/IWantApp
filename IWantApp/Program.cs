@@ -44,8 +44,8 @@ builder.Services.AddAuthentication(x =>
 });
 
 var app = builder.Build();
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {

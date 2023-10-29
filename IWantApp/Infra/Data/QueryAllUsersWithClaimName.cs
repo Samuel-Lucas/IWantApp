@@ -18,10 +18,10 @@ public class QueryAllUsersWithClaimName
         _configuration = configuration;
     }
 
-    public IEnumerable<EmployeeResponse> Execute(int? page, int? rows)
+    public async Task<IEnumerable<EmployeeResponse>> Execute(int? page, int? rows)
     {
         var db = new SqlConnection(_configuration["ConnectionStrings:SqlServer"]);
-        return db.Query<EmployeeResponse>(
+        return await db.QueryAsync<EmployeeResponse>(
             Query,
             new { page, rows });
     }

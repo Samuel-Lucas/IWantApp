@@ -7,14 +7,25 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// builder.Host.UseSerilog((context, configuration) =>
+// {
+//     configuration
+//         .WriteTo.Console()
+//         .WriteTo.MSSqlServer(
+//             context.Configuration["ConnectionString:DbCursoWebApi"],
+//               sinkOptions: new MSSqlServerSinkOptions()
+//               {
+//                   AutoCreateSqlTable = true,
+//                   TableName = "LogAPI"
+//               });
+// });
 builder.Services.AddControllers();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration["ConnectionStrings:SqlServer"]);

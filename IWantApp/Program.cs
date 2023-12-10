@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json;
 using IWantApp.Endpoints.Categories;
 using IWantApp.Endpoints.Employees;
 using IWantApp.Endpoints.Products;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient.Server;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -87,6 +89,8 @@ app.Map("/error", (HttpContext http) =>  {
     {
         if(error is SqlException)
             return Results.Problem(title: "Database out", statusCode: 500);
+        else if (error is BadHttpRequestException)
+            return Results.Problem(title: "Error to convert data to other type. See all the information sent", statusCode: 400);
     }
 
     return Results.Problem(title: "An Error ocurred", statusCode: 500);

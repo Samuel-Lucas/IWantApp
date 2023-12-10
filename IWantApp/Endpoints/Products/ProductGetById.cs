@@ -15,7 +15,7 @@ public class ProductGetById
     public static async Task<IResult> Action([FromRoute]Guid id, ApplicationDbContext context)
     {
         var product = await context.Products.Where(p => p.Id == id).Include(p => p.Category).FirstOrDefaultAsync();
-        var productResponse = new ProductResponse(product!.Name, product.Category.Name, product.Description, product.HasStock, product.Active);
+        var productResponse = new ProductResponse(product!.Name, product.Category.Name, product.Description, product.Price, product.HasStock, product.Active);
         
         return Results.Ok(productResponse);
     }
